@@ -19,10 +19,18 @@ allprojects {
     repositories {
         google()
         jcenter()
-        
+        maven { url "https://jitpack.io" }
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+    lifecycle_version = '2.1.0'
+    kotlin_coroutines_version = '1.0.0'
+    material_version = '1.0.0'
+    dagger_version = '2.11'
+    retrofit_version = '2.6.2'
 }
