@@ -62,7 +62,11 @@ class MainFragment : BaseFragment(), MainAdapter.ItemClickListener {
 
         hideProgress()
 
-        mainAdapter = photos?.let { MainAdapter(it, this) } ?: MainAdapter(emptyList(), this)
+        if (photos != null) {
+            mainAdapter.updateData(photos)
+        }
+
+        // mainAdapter = photos?.let { MainAdapter(it, this) } ?: MainAdapter(emptyList(), this)
     }
 
     private fun onFailure(failure: Failure?) {

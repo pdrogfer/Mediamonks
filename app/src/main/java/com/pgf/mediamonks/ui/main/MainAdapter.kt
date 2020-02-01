@@ -30,14 +30,20 @@ class MainAdapter(private var photos: List<PhotoItem>, private var clickListener
         Picasso.get()
             .load(photo.thumbnailUrl)
             .centerCrop()
+            .resize(32, 32)
             .into(holder.thumbnail)
 
         holder.title.text = photo.title
-        holder.id.text = photo.id.toString()
+        holder.id.text = "id: ${photo.id.toString()}"
 
         holder.rootView.setOnClickListener {
             clickListener.onItemClick(photo)
         }
+    }
+
+    fun updateData(newPhotos: List<PhotoItem>) {
+        photos = newPhotos
+        notifyDataSetChanged()
     }
 
     class PhotoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
