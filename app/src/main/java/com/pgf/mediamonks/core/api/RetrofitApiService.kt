@@ -12,7 +12,7 @@ class RetrofitApiService
 
     private val photosApi by lazy { retrofit.create(PhotosApi::class.java) }
 
-    override fun getPhotos(): Call<List<PhotoItem>> = photosApi.getPhotos()
+    override fun getPhotos(albumId: Int): Call<List<PhotoItem>> = photosApi.getPhotos(albumId)
 
 
 }

@@ -13,15 +13,23 @@ class MainViewModel
     var photos: MutableLiveData<List<PhotoItem>> = MutableLiveData()
     var failure: MutableLiveData<Failure> = MutableLiveData()
 
-    fun getPhotos() {
-        useCaseGetPhotos.invoke(UseCaseGetPhotos.Params("not used")) {
-            it.either(::handleFailure, ::handlePhotosResults)
+    fun getPhotos(albumId: Int) {
+
+        if (isValidAlbumId(albumId)) {
+            useCaseGetPhotos.invoke(UseCaseGetPhotos.Params(albumId)) {
+                it.either(::handleFailure, ::handlePhotosResults)
+            }
+        } else {
+            handleFailure(Failure.InvalidAlbumId)
         }
+
 
     }
 
+    private fun isValidAlbumId(albumId: Int): Boolean = albumId > 0
+
     private fun handlePhotosResults(listPhotos: List<PhotoItem>) {
-        this.photos.value = listPhotos.subList(0, 10)
+        this.photos.value = listPhotos
     }
 
     private fun handleFailure(failure: Failure) {

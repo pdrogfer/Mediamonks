@@ -12,6 +12,6 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
     }
 
-    override fun fragment(): BaseFragment = MainFragment()
+    override fun fragment(): BaseFragment = PhotoListFragment.newInstance()
 }
 

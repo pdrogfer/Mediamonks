@@ -1,8 +1,9 @@
 package com.pgf.mediamonks.core.dependency_injection
 
 import com.pgf.mediamonks.core.dependency_injection.viewmodel.ViewModelModule
+import com.pgf.mediamonks.ui.detail.PhotoDetailFragment
 import com.pgf.mediamonks.ui.main.MainActivity
-import com.pgf.mediamonks.ui.main.MainFragment
+import com.pgf.mediamonks.ui.main.PhotoListFragment
 import dagger.Component
 import javax.inject.Singleton
 
@@ -17,6 +18,7 @@ interface ApplicationComponent {
     fun inject(mainActivity: MainActivity)
 
     // fragments
-    fun inject(mainFragment: MainFragment)
+    fun inject(photoListFragment: PhotoListFragment)
+    fun inject(photoDetailFragment: PhotoDetailFragment)
 
 }

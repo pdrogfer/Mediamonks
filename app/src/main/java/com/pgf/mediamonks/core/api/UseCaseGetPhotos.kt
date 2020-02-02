@@ -10,7 +10,7 @@ class UseCaseGetPhotos
 @Inject constructor(private val photosRepository: PhotosRepository) : UseCase<List<PhotoItem>, UseCaseGetPhotos.Params>() {
 
     override suspend fun run(params: Params): Either<Failure, List<PhotoItem>> =
-        photosRepository.getPhotos()
+        photosRepository.getPhotos(params)
 
-    data class Params(val apiCallParam: String)
+    data class Params(val albumId: Int)
 }

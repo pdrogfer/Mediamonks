@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pgf.mediamonks.R
@@ -14,13 +15,17 @@ import com.pgf.mediamonks.core.extensions.failure
 import com.pgf.mediamonks.core.extensions.observe
 import com.pgf.mediamonks.core.extensions.viewModel
 import com.pgf.mediamonks.ui.base.BaseFragment
+import com.pgf.mediamonks.ui.detail.PhotoDetailFragment
 import kotlinx.android.synthetic.main.fragment_main.*
 import org.jetbrains.anko.info
 
-class MainFragment : BaseFragment(), MainAdapter.ItemClickListener {
+class PhotoListFragment : BaseFragment(), MainAdapter.ItemClickListener {
 
     companion object {
-        fun newInstance() = MainFragment()
+
+        val DEMO_ALBUM_ID = 1
+
+        fun newInstance() = PhotoListFragment()
     }
 
     override fun layoutId(): Int = R.layout.fragment_main
@@ -49,24 +54,20 @@ class MainFragment : BaseFragment(), MainAdapter.ItemClickListener {
             failure(failure, ::onFailure)
         }
 
-        rvPhotos.layoutManager = LinearLayoutManager(activity)
+        rvPhotos.layoutManager = LinearLayoutManager(context)
         mainAdapter = MainAdapter(emptyList(), this)
         rvPhotos.adapter = mainAdapter
         rvPhotos.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
 
         showProgress()
-        mainViewModel.getPhotos()
+        mainViewModel.getPhotos(DEMO_ALBUM_ID)
     }
 
     private fun onPhotosRetrieved(photos: List<PhotoItem>?) {
 
         hideProgress()
 
-        if (photos != null) {
-            mainAdapter.updateData(photos)
-        }
-
-        // mainAdapter = photos?.let { MainAdapter(it, this) } ?: MainAdapter(emptyList(), this)
+        photos?.let { mainAdapter.updateData(photos) }
     }
 
     private fun onFailure(failure: Failure?) {
@@ -76,7 +77,18 @@ class MainFragment : BaseFragment(), MainAdapter.ItemClickListener {
     }
 
     override fun onItemClick(item: PhotoItem) {
-        Toast.makeText(context, "Click on item: ${item.title}", Toast.LENGTH_SHORT).show()
+
+        val fragmentTransaction = fragmentManager?.beginTransaction()
+        if (fragmentTransaction != null) {
+
+            fragmentTransaction.replace(
+                R.id.container,
+                PhotoDetailFragment.newInstance(item)
+            )
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            fragmentTransaction.addToBackStack(null)
+            fragmentTransaction.commit()
+        }
     }
 
 }

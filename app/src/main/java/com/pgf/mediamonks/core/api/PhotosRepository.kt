@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 interface PhotosRepository {
 
-    fun getPhotos(): Either<Failure, List<PhotoItem>>
+    fun getPhotos(params: UseCaseGetPhotos.Params): Either<Failure, List<PhotoItem>>
 
     class DataSourceNetwork
     @Inject constructor(
@@ -17,10 +17,10 @@ interface PhotosRepository {
         private val service: RetrofitApiService
     ) : PhotosRepository {
 
-        override fun getPhotos(): Either<Failure, List<PhotoItem>> {
+        override fun getPhotos(params: UseCaseGetPhotos.Params): Either<Failure, List<PhotoItem>> {
             return when (networkHandler.isConnected) {
                 true -> request(
-                    service.getPhotos(),
+                    service.getPhotos(params.albumId),
                     { responsePhotos -> responsePhotos },
                     emptyList()
                 )

@@ -1,6 +1,5 @@
 package com.pgf.mediamonks.ui.base
 
-import android.graphics.Insets.add
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.pgf.mediamonks.R
